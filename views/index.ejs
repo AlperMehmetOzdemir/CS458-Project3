@@ -14,6 +14,9 @@
       Test Page
       <label id="latLabel" for=""></label>
       <input id="lat" name="lat" required />
+      <% if (locals.cityName != null) { %>
+      <p id="cityName"><%= cityName%></p>
+      <% } %>
     </main>
   </body>
 </html>
