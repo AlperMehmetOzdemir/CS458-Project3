@@ -12,8 +12,13 @@
     </header>
     <main>
       Test Page
-      <label id="latLabel" for=""></label>
-      <input id="lat" name="lat" required />
+      <form action="./city" method="GET">
+        <label id="latLabel" for="">Latitude: </label>
+        <input id="lat" name="lat" required />
+        <label id="lngLabel" for="">Longitude: </label>
+        <input id="lng" name="lng" required />
+        <button>Submit</button>
+      </form>
       <% if (locals.cityName != null) { %>
       <p id="cityName"><%= cityName%></p>
       <% } %>

@@ -2,9 +2,11 @@ const request = require("supertest");
 const requestGoogleAPI = require("supertest")(
   "https://maps.googleapis.com/maps/api"
 );
-const jsdom = require("jsdom");
-const expect = require("chai").expect;
 const dotenv = require("dotenv");
+const jsdom = require("jsdom");
+const chai = require("chai");
+chai.use(require("chai-dom"));
+const expect = chai.expect;
 const server = require("../server");
 
 dotenv.config();
