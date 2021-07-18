@@ -4,6 +4,7 @@ const axios = require("axios");
 const path = require("path");
 
 const haversine_distance = require("./utils/haversine_distance.js");
+const distanceToEarthsCore = require("./utils/distanceToCore.js");
 
 dotenv.config();
 
@@ -75,28 +76,32 @@ app.get("/bigben", (req, res) => {
     });
 });
 
-
 // @desc Get distance to the core of the earth using Geocoordinates
 // @route GET /core
-app.get("/core", (req,res) => {
+app.get("/core", (req, res) => {
   const deviceLat = req.query.lat;
   const deviceLng = req.query.lng;
   const apiURL = `https://maps.googleapis.com/maps/api/elevation/json?locations=${deviceLat},${deviceLng}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
 
   let elevation;
 
-  axios.get(apiURL)
+  axios
+    .get(apiURL)
     .then((response) => {
       elevation = response.data.results[0].elevation;
 
-      res.render("index.ejs", {coreDistance: elevation})
+      const coreDistance = distanceToEarthsCore(
+        deviceLat,
+        deviceLng,
+        elevation
+      );
+
+      res.render("index.ejs", { coreDistance });
     })
     .catch((error) => {
-      console.log(error.message)
-    })
-    
-
-})
+      console.log(error.message);
+    });
+});
 
 const server = app.listen(port, () => {
   console.log(runningMessage);
