@@ -12,6 +12,12 @@ const server = require("../server");
 dotenv.config();
 
 describe("Users can enter the coordinates of their location to show their city", function () {
+  // Make sure server is closed before tests (so port is available)
+  before(function(){
+    server.close();
+  })
+
+  // Close server after testing is done
   after(function () {
     server.close();
   });

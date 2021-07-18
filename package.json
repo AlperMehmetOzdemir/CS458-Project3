@@ -4,7 +4,8 @@
   "description": "tdd project with mocha and chai",
   "main": "server.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "start": "nodemon server.js"
   },
   "author": "Alper Mehmet Özdemir",
   "license": "ISC",

@@ -48,7 +48,7 @@
         <form
           class="container-sm col-lg-6"
           id="bigbenForm"
-          action="./city"
+          action="./bigben"
           method="GET"
         >
           <div class="form-floating mb-3">
@@ -89,7 +89,9 @@
           </button>
         </form>
         <% if (locals.bigbenDistance != null) { %>
-        <p id="bigbenDistance">You are in: <%= bigbenDistance%></p>
+        <p id="bigbenDistance">
+          Haversine distance to Big Ben is: <%= bigbenDistance%> km
+        </p>
         <% } %>
       </div>
 
@@ -98,7 +100,7 @@
         <form
           class="container-sm col-lg-6 mb-6"
           id="coreForm"
-          action="./city"
+          action="./core"
           method="GET"
         >
           <div class="form-floating mb-3">
@@ -139,7 +141,7 @@
           </button>
         </form>
         <% if (locals.coreDistance != null) { %>
-        <p id="coreDistance">You are in: <%= coreDistance %></p>
+        <p id="coreDistance">Your distance to the Earth's core is: <%= coreDistance %> km</p>
         <% } %>
       </div>
     </main>
