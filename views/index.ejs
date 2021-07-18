@@ -13,25 +13,141 @@
     <title>CS-458 Project 3</title>
   </head>
   <body>
-    <header class="container text-center">
-      <h1 class="display-1">CS-458 Project 3</h1>
+    <header class="container text-center my-3">
+      <h1>CS-458 Project 3</h1>
     </header>
-    <main class="container text-center">
-      <form id="cityForm" action="./city" method="GET">
-        <label id="latLabel" for="">Latitude: </label>
-        <input id="lat" name="lat" required="true" />
-        <label id="lngLabel" for="">Longitude: </label>
-        <input id="lng" name="lng" required="true" />
-        <button id="cityButton">Submit</button>
-      </form>
-      <% if (locals.cityName != null) { %>
-      <p id="cityName">You are in: <%= cityName%></p>
-      <% } %>
+
+    <main class="container text-center mx-auto row">
+      <div class="my-4">
+        <h2>Enter Coordinates To Find City</h2>
+        <form
+          class="container-sm col-lg-6"
+          id="cityForm"
+          action="./city"
+          method="GET"
+        >
+          <div class="form-floating mb-3">
+            <input class="form-control" id="lat" name="lat" required="true" />
+            <label id="latLabel" for="lat">Latitude: </label>
+          </div>
+          <div class="form-floating mb-3">
+            <input class="form-control" id="lng" name="lng" required="true" />
+            <label id="lngLabel" for="lng">Longitude: </label>
+          </div>
+          <button class="btn btn-primary col-auto" id="cityButton">
+            Find City
+          </button>
+        </form>
+        <% if (locals.cityName != null) { %>
+        <p id="cityName">You are in: <%= cityName%></p>
+        <% } %>
+      </div>
+
+      <div class="my-4">
+        <h2>Find Your Distance To Big Ben</h2>
+        <form
+          class="container-sm col-lg-6"
+          id="bigbenForm"
+          action="./city"
+          method="GET"
+        >
+          <div class="form-floating mb-3">
+            <input
+              class="form-control"
+              id="bigbenLat"
+              name="lat"
+              required="true"
+            />
+            <label id="bigbenLatLabel" for="bigbenLat">Latitude: </label>
+          </div>
+          <div class="form-floating mb-3">
+            <input
+              class="form-control"
+              id="bigbenLng"
+              name="lng"
+              required="true"
+            />
+            <label id="bigbenLngLabel" for="bigbenLng">Longitude: </label>
+          </div>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="useDeviceLocation"
+              id="bigBenDeviceLocation"
+            />
+            <label
+              id="bigbenUseDeviceLocation"
+              class="form-check-label"
+              for="bigBenDeviceLocation"
+            >
+              Use my device's location
+            </label>
+          </div>
+          <button class="btn btn-primary col-auto" id="bigbenButton">
+            Find Distance to Big Ben.
+          </button>
+        </form>
+        <% if (locals.bigbenDistance != null) { %>
+        <p id="bigbenDistance">You are in: <%= bigbenDistance%></p>
+        <% } %>
+      </div>
+
+      <div class="my-4">
+        <h2>Find Your Distance To The Center Of The Earth</h2>
+        <form
+          class="container-sm col-lg-6 mb-6"
+          id="coreForm"
+          action="./city"
+          method="GET"
+        >
+          <div class="form-floating mb-3">
+            <input
+              class="form-control"
+              id="coreLat"
+              name="lat"
+              required="true"
+            />
+            <label id="coreLatLabel" for="coreLat">Latitude: </label>
+          </div>
+          <div class="form-floating mb-3">
+            <input
+              class="form-control"
+              id="coreLng"
+              name="lng"
+              required="true"
+            />
+            <label id="coreLngLabel" for="coreLng">Longitude: </label>
+          </div>
+          <div class="form-check mb-2 text-left">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="useDeviceLocation"
+              id="coreDeviceLocation"
+            />
+            <label
+              id="coreUseDeviceLocation"
+              class="form-check-label text-left"
+              for="coreDeviceLocation"
+            >
+              Use my device's location
+            </label>
+          </div>
+          <button class="btn btn-primary col-auto" id="coreButton">
+            Find Distance to Earth's Core
+          </button>
+        </form>
+        <% if (locals.coreDistance != null) { %>
+        <p id="coreDistance">You are in: <%= coreDistance %></p>
+        <% } %>
+      </div>
     </main>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
       crossorigin="anonymous"
     ></script>
+    <script src="/public/script.js"></script>
   </body>
 </html>

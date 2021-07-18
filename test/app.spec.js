@@ -210,7 +210,6 @@ describe("Users can enter the coordinates of their location to show their city",
           expect(cityDisplay).to.have.id("cityName");
           done();
         });
-      // done();
     });
 
     it("Should display a correctly extracted city name in HTML element with id='cityName'", function (done) {
