@@ -20,6 +20,7 @@ describe("Users can enter the coordinates of their location to show their city",
     describe("Users can enter their latitude", function () {
       let htmlDOM;
       let latInput;
+      let latLabel;
       request(server)
         .get("/")
         .expect(200)
@@ -49,16 +50,21 @@ describe("Users can enter the coordinates of their location to show their city",
       });
 
       it("should have a label element with id='latLabel'", function (done) {
-        const latLabel =
-          htmlDOM.window.document.querySelector("label#latLabel");
+        latLabel = htmlDOM.window.document.querySelector("#latLabel");
         expect(latLabel).to.not.be.a("null");
-        expect(latLabel).to.have.property("id", "latLabel");
+        expect(latLabel).to.have.id("latLabel");
+        done();
+      });
+
+      it("should have a label element with text='Latitude'", function (done) {
+        expect(latLabel).to.contain.text("Latitude");
         done();
       });
     });
     describe("Users can enter their longitude", function () {
       let htmlDOM;
       let lngInput;
+      let lngLabel;
       request(server)
         .get("/")
         .expect(200)
@@ -87,11 +93,15 @@ describe("Users can enter the coordinates of their location to show their city",
         done();
       });
 
-      it("should have a label element with id='latLabel'", function () {
-        const lngLabel =
-          htmlDOM.window.document.querySelector("label#lngLabel");
+      it("should have a label element with id='latLabel'", function (done) {
+        lngLabel = htmlDOM.window.document.querySelector("label#lngLabel");
         expect(lngLabel).to.not.be.a("null");
-        expect(lngLabel).to.have.property("id", "lngLabel");
+        expect(lngLabel).to.have.id("lngLabel");
+        done();
+      });
+
+      it("should have a label element with text='Longitude'", function (done) {
+        expect(lngLabel).to.contain.text("Longitude");
         done();
       });
     });
@@ -132,18 +142,18 @@ describe("Users can enter the coordinates of their location to show their city",
       });
 
       it("should have a form element with id ='cityForm' with attribute method='GET'", function (done) {
-        expect(cityForm).to.have.property("method", "GET");
+        expect(cityForm).to.have.property("method", "get");
         done();
       });
 
       it("should have a form element with id ='cityForm' with attribute action='http://localhost:5000/city'", function (done) {
-        expect(cityForm).to.have.property("method", "GET");
+        expect(cityForm).to.have.property("action", "./city");
         done();
       });
     });
   });
 
-  describe("The application can retrieve city name using coordinates from Google Map API", function () {
+  describe("The application can retrieve city name using coordinates from Google Map Geocoding API", function () {
     it("should have a valid API key for Google Map API", function (done) {
       const lat = "39.973100146423526";
       const lng = "32.77836554968787";
@@ -151,8 +161,11 @@ describe("Users can enter the coordinates of their location to show their city",
         .get(
           `/geocode/json?latlng=${lat},${lng}&key=${process.env.GOOGLE_MAPS_API_KEY}`
         )
-        .expect(200);
-      done();
+        .expect(200)
+        .end((error, response) => {
+          expect(response.status).to.be.equal(200);
+          done();
+        });
     });
 
     it("should retrieve the correct city name for a lat-lng pair", function (done) {
@@ -174,31 +187,43 @@ describe("Users can enter the coordinates of their location to show their city",
             }
           });
           expect(cityName).to.be.equal("Ankara");
+          done();
         });
-      done();
     });
   });
 
   describe("The application should display the retrieved city name", function () {
     let htmlDOM;
     let cityDisplay = null;
-    request(server)
-      .get("/")
-      .expect(200)
-      .end((error, response) => {
-        htmlDOM = new jsdom.JSDOM(response.text);
-      });
+    const lat = "39.973100146423526";
+    const lng = "32.77836554968787";
 
     it("Should have an HTML element with id='cityName'", function (done) {
-      cityDisplay = htmlDOM.window.document.querySelector("#cityName");
-      expect(cityDisplay).to.not.be.a("null");
-      expect(cityDisplay).to.have.property("id", "cityName");
-      done();
+      request(server)
+        .get("/city")
+        .query({ lat, lng })
+        .expect(200)
+        .end((error, response) => {
+          htmlDOM = new jsdom.JSDOM(response.text);
+          cityDisplay = htmlDOM.window.document.querySelector("#cityName");
+          expect(cityDisplay).to.not.be.a("null");
+          expect(cityDisplay).to.have.id("cityName");
+          done();
+        });
+      // done();
     });
 
-    it("Should display an extracted city name in HTML element with id='cityName'", function (done) {
-      // expect(cityDisplay.text).to.have.text
-      done();
+    it("Should display a correctly extracted city name in HTML element with id='cityName'", function (done) {
+      request(server)
+        .get("/city")
+        .query({ lat, lng })
+        .expect(200)
+        .end((error, response) => {
+          htmlDOM = new jsdom.JSDOM(response.text);
+          cityDisplay = htmlDOM.window.document.querySelector("#cityName");
+          expect(cityDisplay).to.contain.trimmed.text("Ankara");
+          done();
+        });
     });
   });
 });

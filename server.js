@@ -19,7 +19,6 @@ app.get("/", (req, res) => {
 // @desc  Get city by Geocoordinates
 // @route GET /city/:latlng
 app.get("/city", (req, res) => {
-  console.log(req.query);
   const lat = req.query.lat;
   const lng = req.query.lng;
   let cityName;
